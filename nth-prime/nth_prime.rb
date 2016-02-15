@@ -1,19 +1,13 @@
 class Prime
-
-  def nth(position)
-    high_number = self
-    array_of_primes = primes_array(high_number)
-    array_of_primes[position]
-  end
-
-  def primes_array(high_limit)
-    array = []
-    1..high_limit.each do |num|
-      if high_limit%num == 0
-        array << num
-      end
+  def self.nth(nth_prime, test_array = (2..1_000_000).to_a, primes_array = [])
+    fail ArgumentError, 'Must be an integer greater than 0' if nth_prime <= 0 || nth_prime.integer? == false
+    if primes_array.length != nth_prime
+      p = test_array[0]
+      test_array -= test_array.find_all { |i| i % p == 0 }
+      primes_array << p
+      nth(nth_prime, test_array, primes_array)
+    else
+      primes_array[-1]
     end
-    array
   end
-
 end
